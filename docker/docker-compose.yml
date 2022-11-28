@@ -1,0 +1,84 @@
+version: '3.4'
+services:
+  rabbitmq1:
+    image: nexus.int.clxnetworks.net:8009/rabbitmq:3-management-alpine
+    container_name: rabbitmq1
+    hostname: rabbitmq1
+    ports:
+      - "15672:15672"
+    network_mode: "bridge"
+    volumes:
+      - $PWD/storage/rabbitmq1:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=This_is_my_secret_phrase
+      - RABBITMQ_DEFAULT_USER=mqadmin
+      - RABBITMQ_DEFAULT_PASS=Admin123XX_
+      - CLUSTERED=true
+
+  rabbitmq2:
+    image: nexus.int.clxnetworks.net:8009/rabbitmq:3-management-alpine
+    container_name: rabbitmq2
+    hostname: rabbitmq2
+    ports:
+      - "8082:15672"
+    network_mode: "bridge"
+    volumes:
+      - $PWD/storage/rabbitmq2:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=This_is_my_secret_phrase
+      - RABBITMQ_DEFAULT_USER=mqadmin
+      - RABBITMQ_DEFAULT_PASS=Admin123XX_
+      - CLUSTERED=true
+    links:
+      - rabbitmq1:rabbitmq1
+
+  rabbitmq3:
+    image: nexus.int.clxnetworks.net:8009/rabbitmq:3-management-alpine
+    container_name: rabbitmq3
+    hostname: rabbitmq3
+    ports:
+      - "8084:15672"
+    network_mode: "bridge"
+    volumes:
+      - $PWD/storage/rabbitmq3:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=This_is_my_secret_phrase
+      - RABBITMQ_DEFAULT_USER=mqadmin
+      - RABBITMQ_DEFAULT_PASS=Admin123XX_
+      - CLUSTERED=true
+    links:
+      - rabbitmq1:rabbitmq1
+      - rabbitmq2:rabbitmq2
+
+  rabbitmq4:
+    image: nexus.int.clxnetworks.net:8009/rabbitmq:3-management-alpine
+    container_name: rabbitmq4
+    hostname: rabbitmq4
+    ports:
+      - "8085:15672"
+    network_mode: "bridge"
+    volumes:
+      - $PWD/storage/rabbitmq4:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=This_is_my_secret_phrase
+      - RABBITMQ_DEFAULT_USER=mqadmin
+      - RABBITMQ_DEFAULT_PASS=Admin123XX_
+      - CLUSTERED=true
+    links:
+      - rabbitmq1:rabbitmq1
+      - rabbitmq2:rabbitmq2
+      - rabbitmq3:rabbitmq3
+
+  haproxy:
+    image: rabbit-haproxy
+    container_name: rabbit-haproxy
+    hostname: haproxy
+    ports:
+      - "5672:5672"
+      - "20000:20000"
+    network_mode: "bridge"
+    links:
+      - rabbitmq1:rabbitmq1
+      - rabbitmq2:rabbitmq2
+      - rabbitmq3:rabbitmq3
+      - rabbitmq4:rabbitmq4

@@ -1,0 +1,11 @@
+rabbitmq:
+  host: 127.0.0.1
+  port: 5672
+  username: mqadmin
+  password: Admin123XX_
+  virtualHost: /
+
+
+
+server:
+  shutdown: graceful
