@@ -57,3 +57,11 @@ message to be delayed for 5,10,15,30 seconds consecutively.
 > localhost:8080/delay/10 </br>
 > localhost:8080/delay/15 </br>
 > localhost:8080/delay/30 </br>
+
+#### Important links ####
+* [RabbitMQ TTL](https://www.rabbitmq.com/ttl.html) 
+* [RabbitMQ Quorum Queues](https://www.rabbitmq.com/quorum-queues.html)
+* [RabbitMQ Reactor](https://projectreactor.io/docs/rabbitmq/snapshot/reference/)
+* [Project Reactor](https://projectreactor.io/)
+* [Kotlin](https://kotlinlang.org/)
+* [Gradle](https://gradle.org/)
