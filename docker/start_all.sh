@@ -9,7 +9,7 @@ JOIN_RABBIT4_RABBIT1="rabbitmqctl stop_app; rabbitmqctl join_cluster rabbit@rabb
 OPTIONAL_COMMAND="rabbitmqctl set_policy ha-all '' '{\"ha-mode\":\"all\", \"ha-sync-mode\":\"automatic\"}'"
 
 
-#Starting the Redis and RabbitMQ containers
+#Starting the RabbitMQ containers
 echo -n "Starting container..."
 docker-compose down
 docker-compose up --force-recreate -d
