@@ -46,20 +46,34 @@ flowchart LR
     subgraph RabbitMQ
     subgraph  
     C([Delay Queue 5 sec])
-    G([Delay Queue 10 sec])
-    H([Delay Queue 15 sec])
-    I([Delay Queue 30 sec])
-    B --> C & G & H & I
+    D([Delay Queue 10 sec])
+    E([Delay Queue 15 sec])
+    F([Delay Queue 30 sec])
+    B --> C & D & E & F
     end
-    C -.After 5 sec.-> D
-    G -.After 10 sec.-> D
-    H -.After 15 sec.-> D
-    I -.After 30 sec.-> D
+    C -.After 5 sec.-> G
+    D -.After 10 sec.-> G
+    E -.After 15 sec.-> G
+    F -.After 30 sec.-> G
     subgraph  
-    D(Exchange) --> E([ Delayed Queue])
+    G(Exchange) --> H([ Delayed Queue])
     end
     end
-    E --> F[Consumer]
+    H --> I[Consumer]
+    
+    %% Producer %%
+    style A fill:#3CB371
+    %% Exchange %%
+    style B fill:#FF0000
+    style G fill:#FF0000
+    %% Queues %%
+    style C fill:#FFA500
+    style D fill:#FFA500
+    style E fill:#FFA500
+    style F fill:#FFA500
+    style H fill:#FFA500
+    %% Consumer %%
+    style I fill:#4169E1
 ```
 > **_NOTE:_** RabbitMQ message ttl is only executed o the messages that are in the head of the queue so this is why I 
 > use multiple queues where each one handle a specific delay period.
