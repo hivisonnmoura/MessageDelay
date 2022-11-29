@@ -42,11 +42,24 @@ where a consumed is bind to it, so the messages that "expires" aka wait the pred
 
 ```mermaid
 flowchart LR
-    A[Producer] --> B([Intermediate Queue])
+    A[Producer] --> B(Exchange)
     subgraph RabbitMQ
-    B --> C([Delayed Messages Queue])
+    subgraph  
+    C([Delay Queue 5 sec])
+    G([Delay Queue 10 sec])
+    H([Delay Queue 15 sec])
+    I([Delay Queue 30 sec])
+    B --> C & G & H & I
     end
-    C --> D[Consumer]
+    C -.After 5 sec.-> D
+    G -.After 10 sec.-> D
+    H -.After 15 sec.-> D
+    I -.After 30 sec.-> D
+    subgraph  
+    D(Exchange) --> E([ Delayed Queue])
+    end
+    end
+    E --> F[Consumer]
 ```
 > **_NOTE:_** RabbitMQ message ttl is only executed o the messages that are in the head of the queue so this is why I 
 > use multiple queues where each one handle a specific delay period.
